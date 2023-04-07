@@ -1,16 +1,20 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback } from "react";
-import { StyleSheet, ImageBackground } from "react-native";
-import LoginScreen from "./Screens/LoginScreen";
-import RegistrationScreen from "./Screens/RegistrationScreen";
+
+import { NavigationContainer } from "@react-navigation/native";
+
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
+import useRoute from "./router";
+
+
 export default function App() {
-  const isRegistr = false;
   const [fontsLoaded] = useFonts({
     "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
   });
+
+  const routing = useRoute(true);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -23,21 +27,16 @@ export default function App() {
   }
 
   return (
-    <ImageBackground
-      style={styles.container}
-      source={require("./assets/bgMounty.png")}
-      onLayout={onLayoutRootView}
-    >
-      {isRegistr ? <RegistrationScreen /> : <LoginScreen />}
-
+    <NavigationContainer onLayout={onLayoutRootView}>
+      {routing}
       <StatusBar style="auto" />
-    </ImageBackground>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "flex-end",
+//   },
+// });
